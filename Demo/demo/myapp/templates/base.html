@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trigger Flyte Workflow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins';
+            margin: 0;
+            padding: 0;
+            background-color: #D8BFD8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5rem;
+            color: #46295d;
+            text-shadow: 1px 1px 2px #aaa;
+        }
+
+        .container {
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px 30px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-top: 15px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #46295d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color:#46295d;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button i {
+            font-size: 1.2rem;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            width: 48%;
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+
+            .button-group button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+    <script>
+        function startWorkflow() {
+            fetch('/trigger_workflow/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(`Workflow started successfully! View it here: ${data.link}`);
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function deleteFile(folder, filename) {
+            fetch('/delete_file/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    folder: folder,
+                    filename: filename
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert(data.message);
+                    const dropdown = document.getElementById(folder + 'Dropdown');
+                    const options = dropdown.getElementsByTagName('option');
+                    for (let i = 0; i < options.length; i++) {
+                        if (options[i].value === filename) {
+                            dropdown.removeChild(options[i]);
+                            break;
+                        }
+                    }
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred while deleting the file.");
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Trigger Flyte Workflow</h1>
+    <div class="container">
+        <label for="source1Dropdown">Source 1:</label>
+        <select id="source1Dropdown" name="source1Dropdown">
+            {% for file in files_data.source1 %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="source2Dropdown">Source 2:</label>
+        <select id="source2Dropdown" name="source2Dropdown">
+            {% for file in files_data.source2 %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="backupDropdown">Backup:</label>
+        <select id="backupDropdown" name="backupDropdown">
+            {% for file in files_data.backup %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <button onclick="deleteFile('backup', document.getElementById('backupDropdown').value)">
+            <i>&#x1F5D1;</i> Delete Selected File
+        </button>
+
+        <div class="button-group">
+            <button onclick="startWorkflow()">
+                <i>&#x23F3;</i> Start Workflow
+            </button>
+        </div>
+        <p class="info-text">Ensure the correct files are selected before triggering the workflow or deleting files.</p>
+    </div>
+</body>
+</html>
+

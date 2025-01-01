@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+    <!--=============== GOOGLE FONTS ===============-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+
+    <title>Colorful Card Page</title>
+
+
+    <style>
+        body {
+            font-family: 'Poppins';
+            margin: 0;
+            background-color: #FFFFFF;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+
+        /* Style for the welcome header */
+        h1 {
+            text-align: center;
+            margin: 20px;
+            font-size: 3rem;
+            letter-spacing: 2px;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+
+        /* Style for navigation bar */
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #333;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.4s ease-in-out;
+        }
+
+
+        nav a:hover {
+            background: #FF5722;  /* Orange color */
+            color: white;
+            transform: scale(1.1);
+        }
+
+
+        nav a.active {
+            background: #FF5722;
+            color: white;
+        }
+
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 50px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+
+        .card {
+            position: relative;
+            border-radius: 20px;
+            padding: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .card__header {
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 1.2px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+            padding-bottom: 10px;
+        }
+
+
+        .card__content {
+            display: none;
+            font-size: 1rem;
+            color: #333;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+
+        .card.active .card__content {
+            display: block;
+        }
+
+
+        /* Colors for individual cards */
+        #card1 { background: #ADD8E6; }
+        #card2 { background: #90EE90; }
+        #card3 { background: #F08080; }
+        #card4 { background: #c89faf; }
+        #card5 { background: #E6E6FA; }
+        #card6 { background: #bca7a9; } 
+        #card7 { background: #FFB6C1; } 
+        #card8 { background: #D8BFD8; } 
+        #card9 { background: #86b4b5; } 
+        #card10 { background: #b6daf6; } 
+        #card11 { background: #c390b7; }
+    </style>
+
+
+    <script>
+        function toggleCardContent(cardId) {
+            const card = document.getElementById(cardId);
+            card.classList.toggle('active');
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to Flyte</h1>
+
+
+    <nav>
+        <a href="{% url 'home' %}">Terminate/Recover</a>
+        <a href="{% url 'about' %}">Logs</a>
+        <a href="{% url 'services' %}">Trigger</a>
+        <a href="{% url 'contact' %}">Contact</a>
+    </nav>
+
+
+    <div class="container">
+        <div class="card" id="card1" onclick="toggleCardContent('card1')">
+            <div class="card__header">Dynamic Task Stitching</div>
+            <div class="card__content">This involves creating workflows where tasks can be dynamically added or modified at runtime. It allows for flexible and adaptive workflows that can change based on input data or conditions.</div>
+        </div>
+
+
+        <div class="card" id="card2" onclick="toggleCardContent('card2')">
+            <div class="card__header">Converge/Diverge</div>
+            <div class="card__content">This refers to the ability of workflows to branch out into multiple parallel tasks (diverge) and then bring those tasks back together (converge) to continue with a single workflow path.</div>
+        </div>
+
+
+        <div class="card" id="card3" onclick="toggleCardContent('card3')">
+            <div class="card__header">Error Handling</div>
+            <div class="card__content">Flyte provides mechanisms to handle errors gracefully within workflows. This can include retrying tasks, executing fallback tasks, or logging errors for later analysis.</div>
+        </div>
+
+
+        <div class="card" id="card4" onclick="toggleCardContent('card4')">
+            <div class="card__header">Event Handling</div>
+            <div class="card__content">This involves triggering workflows or tasks based on specific events, such as data availability or external signals, allowing for reactive and event-driven workflows.</div>
+        </div>
+
+
+        <div class="card" id="card5" onclick="toggleCardContent('card5')">
+            <div class="card__header">Data Sharing Across Tasks</div>
+            <div class="card__content">Flyte supports passing data between tasks within a workflow, ensuring that tasks can share inputs and outputs seamlessly.</div>
+        </div>
+
+
+        <div class="card" id="card6" onclick="toggleCardContent('card6')">
+            <div class="card__header">State Management</div>
+            <div class="card__content">Flyte manages the state of workflows and tasks, tracking their progress, success, or failure, and allowing for recovery or continuation from specific points.</div>
+        </div>
+
+
+        <div class="card" id="card7" onclick="toggleCardContent('card7')">
+            <div class="card__header">Parallelism of Tasks</div>
+            <div class="card__content">Flyte enables tasks to run in parallel, leveraging distributed computing resources to speed up execution and handle large-scale data processing.</div>
+        </div>
+
+
+        <div class="card" id="card8" onclick="toggleCardContent('card8')">
+            <div class="card__header">Subworkflows</div>
+            <div class="card__content">These are workflows nested within other workflows, allowing for modular and reusable workflow components that can be managed independently.</div>
+        </div>
+
+
+        <div class="card" id="card9" onclick="toggleCardContent('card9')">
+            <div class="card__header">Terminate the Task</div>
+            <div class="card__content">This feature allows for the termination of tasks that are no longer needed or are taking too long, freeing up resources for other tasks.</div>
+        </div>
+
+
+        <div class="card" id="card10" onclick="toggleCardContent('card10')">
+            <div class="card__header">Timeout and Retrieve</div>
+            <div class="card__content">Flyte can set timeouts for tasks, ensuring they do not run indefinitely. If a task exceeds its timeout, it can be terminated, and its state can be retrieved for analysis.</div>
+        </div>
+
+
+        <div class="card" id="card11" onclick="toggleCardContent('card11')">
+            <div class="card__header">Polling</div>
+            <div class="card__content">This involves periodically checking the status of tasks or external systems to determine if a condition has been met or if further action is needed.</div>
+        </div>
+    </div>
+</body>
+</html>
