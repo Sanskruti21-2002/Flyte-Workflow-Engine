@@ -1,0 +1,26 @@
+admin:
+  endpoint: "host.docker.internal:30081"
+  insecure: true
+
+project: "FLYTE"
+domain: "development"
+
+notifications:
+  enabled: true
+  email:
+    smtp:
+      host: "smtp.gmail.com"
+      port: 587
+      username: "sanskrutiwakode21@gmail.com"
+      password: "${SMTP_PASSWORD}"
+      sender: "sanskrutiwakode21@gmail.com"
+
+# workflow_notifications:
+#   enabled: true
+#   config:
+#     notifications:
+#       type: slack
+#       slack:
+#         url: https://hooks.slack.com/services/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
+
+

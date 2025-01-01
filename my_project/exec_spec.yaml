@@ -1,0 +1,8 @@
+iamRoleARN: ""
+inputs: {}
+envs: {}
+kubeServiceAcct: ""
+targetDomain: ""
+targetProject: ""
+version: DdD4WpSndl-CBefRRv-HWg
+workflow: workflows.send_email.simple_failing_workflow
