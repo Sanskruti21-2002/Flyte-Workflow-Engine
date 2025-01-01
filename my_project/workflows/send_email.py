@@ -444,27 +444,6 @@ def terminate_workflow(execution_id):
     except Exception as e:
         print(f"Failed to terminate execution {execution_id}: {e}")
 
-# def recover_workflow(execution_id):
-#     logger.info("Called recover workflow API")
-#     url = "http://localhost:8088/api/v1/executions/recover"
-#     data = {
-#         "id": {
-#             "project": "flytesnacks",
-#             "domain": "development",
-#             "name": execution_id
-#         }
-#     }
-#     headers = {
-#         "Content-Type": "application/json",
-#         # Add authorization headers if needed
-#     }
-#     response = requests.post(url, json=data, headers=headers)
-#     if response.status_code == 200:
-#         new_execution_id = response.json().get("id", {}).get("name")
-#         logger.info(f"Workflow execution recovered successfully. New execution ID: {new_execution_id}")
-#     else:
-#         logger.error(f"Failed to recover workflow execution: {response.text}")
-
 def recover_workflow(execution_id):
     logger.info("Called recover workflow API")
     url = "http://localhost:30080/api/v1/executions/recover"
@@ -592,17 +571,6 @@ def list_files_task(source_folder: str) -> List[str]:
     logger.info(f"Files to update: {files_to_update}")
     
     return files_to_update
-
-# @task(container_image="sanskruti557/my-flyte-workflow:latest", retries=2, timeout=timedelta(minutes=5))
-# def evaluate_condition(files_to_update: List[str]) -> bool:
-#     check_workflow_state()
-#     # logger.info(f"Starting Evaluate Condition for folder: {source_folder}")
-   
-#     if len(files_to_update) > 0:
-#         logger.info(f"{len(files_to_update)} files to update.")
-#     else:
-#         logger.warning("No files to update.")
-#     return len(files_to_update) > 0
 
 @task(container_image="sanskruti557/my-flyte-workflow:latest", retries=2, timeout=timedelta(minutes=20))
 def copy_files_task(files_to_update: List[str], source_folder: str):

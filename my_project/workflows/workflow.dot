@@ -1,9 +1,0 @@
-strict digraph  {
-	start_node->n0[ lhead="" ];
-	n0->end_node[ ltail="" ];
-	end_node [ color=red, label=end, shape=doublecircle ];
-	n0 [ label="dynamic_copy_files_workflow [python-task]", shape=box ];
-	start_node [ color=green, label=start, shape=doublecircle ];
-
-}
-
